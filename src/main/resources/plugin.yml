@@ -10,16 +10,20 @@ depend: [Spout, Citizens]
 commands:
   citiskins:
     description: CitiSkins parent command.
-    permission: citiskins.command.*
     usage: Usage /citiskins <child>
  
 permissions:
   citiskins.*:
     description: Gives access to all CitiSkins commands
     children:
-      inferno.flagrate: true
-      inferno.burningdeaths: true
-      inferno.burningdeaths.others: true
+      citiskins.skin.apply: true
+      citiskins.skin.remove: true
+      citiskins.help: true
+      citiskins.cape.apply: true
+      citiskins.cape.remove: true
+  citiskins.help:
+    description: Gives acces to help command
+    default: true
   citiskins.skin.apply:
     description: Allows you to apply skins to NPCs
     default: false

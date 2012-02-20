@@ -72,7 +72,7 @@ public class Commands implements CommandExecutor {
 	 * @param sender of the command
 	 * @param arguments of the command
 	 */
-	public void parseCommand(Player sender, String[] args) {
+	private void parseCommand(Player sender, String[] args) {
 		String cmd;
 		String action;
 		String url;

@@ -106,16 +106,16 @@ public class Commands implements CommandExecutor {
 	 * @param action 
 	 */
 	public void execute(Player player, String cmd, String action) {
-		if (cmd.equalsIgnoreCase("skin")) {
-			if (action.equalsIgnoreCase("remove")) {
+		if (action.equalsIgnoreCase("remove")) {
+			if (cmd.equalsIgnoreCase("skin")) {
 				npcs.removeNpcSkin(player);
 			}
-		}
-		
-		if (cmd.equalsIgnoreCase("cape")) {
-			if (action.equalsIgnoreCase("remove")) {
+			
+			if (cmd.equalsIgnoreCase("cape")) {
 				npcs.removeNpcCape(player);
 			}
+		} else {
+			this.sendHelp(player);
 		}
 	}
 	
@@ -128,16 +128,16 @@ public class Commands implements CommandExecutor {
 	 * @param url 
 	 */
 	public void execute(Player player, String cmd, String action, String url) {
-		if (cmd.equalsIgnoreCase("skin")) {
-			if (action.equalsIgnoreCase("apply")) {
+		if (action.equalsIgnoreCase("apply")) {
+			if (cmd.equalsIgnoreCase("skin")) {
 				npcs.applyNpcSkin(player, url);
 			}
-		}
-		
-		if (cmd.equalsIgnoreCase("cape")) {
-			if (action.equalsIgnoreCase("apply")) {
+			
+			if (cmd.equalsIgnoreCase("cape")) {
 				npcs.applyNpcCape(player, url);
 			}
+		} else {
+			this.sendHelp(player);
 		}
 	}
 	

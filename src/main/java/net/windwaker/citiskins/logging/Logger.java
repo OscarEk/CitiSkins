@@ -1,5 +1,5 @@
 /*
-The GuildCraft project.
+The CitiSkins project.
 Copyright (C) 2012 Walker Crouse
 
 This library is free software; you can redistribute it and/or

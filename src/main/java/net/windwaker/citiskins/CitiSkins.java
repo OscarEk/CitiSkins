@@ -1,5 +1,5 @@
 /*
-The GuildCraft project.
+The CitiSkins project.
 Copyright (C) 2012 Walker Crouse
 
 This library is free software; you can redistribute it and/or
@@ -30,7 +30,7 @@ public class CitiSkins extends JavaPlugin {
 	private final Logger logger = Logger.getInstance();
 	
 	public void onEnable() {
-		this.getCommand("citiskins").setExecutor(new Commands());
+		this.getCommand("citiskins").setExecutor(new Commands(this));
 		logger.enable("CitiSkins v" + this.getDescription().getVersion() + " by Windwaker enabled!");
 	}
 	

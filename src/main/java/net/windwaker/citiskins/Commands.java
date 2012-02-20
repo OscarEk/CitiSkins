@@ -49,7 +49,7 @@ public class Commands implements CommandExecutor {
 				this.parseCommand((Player) sender, args);
 				return true;
 			} else {
-				// TODO: Send help command
+				this.sendVersion((Player) sender);
 			}
 		}
 		return false;
@@ -57,7 +57,7 @@ public class Commands implements CommandExecutor {
 	
 	public void parseCommand(Player sender, String[] args) {
 		if (args.length == 1) {
-			sender.sendMessage(ChatColor.RED + "Error: Not enough arguments!");
+			this.sendHelp(sender);
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("skin")) {
 				if (args[1].endsWith(".png")) {
@@ -99,5 +99,16 @@ public class Commands implements CommandExecutor {
 			player.sendMessage(ChatColor.RED 
 					+ "Error: Couldn't find a valid NPC to cape! Please select one and try again!");
 		}
+	}
+	
+	public void sendVersion(Player sender) {
+		sender.sendMessage(ChatColor.GREEN + "CitiSkins v" + plugin.getDescription().getVersion() 
+				+ " by Windwaker enabled!");
+	}
+	
+	public void sendHelp(Player sender) {
+		sender.sendMessage("-- CitiSkins Help --");
+		sender.sendMessage("-- /citiskins <skin|cape> <url> --");
+		sender.sendMessage("-- You must have an NPC selected in Citizens. --");
 	}
 }

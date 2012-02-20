@@ -1,0 +1,34 @@
+name: CitiSkins
+version: "${project.version}"
+description: Skin NPCs of Citizens plugin with the aid of SpoutPlugin
+author: Windwaker
+website: http://github.com/WalkerCrouse/CitiSkins
+main: net.windwaker.citiskins.CitiSkins
+database: false
+depend: [Spout, Citizens]
+
+commands:
+  citiskins:
+    description: CitiSkins parent command.
+    permission: citiskins.command.*
+    usage: Usage /citiskins <child>
+ 
+permissions:
+  citiskins.*:
+    description: Gives access to all CitiSkins commands
+    children:
+      inferno.flagrate: true
+      inferno.burningdeaths: true
+      inferno.burningdeaths.others: true
+  citiskins.skin.apply:
+    description: Allows you to apply skins to NPCs
+    default: false
+  citiskins.skin.remove:
+    description: Allows you to remove skins from NPCs
+    default: false
+  citiskins.cape.apply:
+    description: Allows you to apply capes to NPCs
+    default: false
+  citiskins.cape.remove:
+    description: Allows you to remove capes from NPCs
+    default: false

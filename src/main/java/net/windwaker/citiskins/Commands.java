@@ -24,11 +24,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutServer;
+import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.player.EntitySkinType;
-import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
  *
@@ -42,6 +43,17 @@ public class Commands implements CommandExecutor {
 		this.plugin = plugin;
 	}
 
+	/**
+	 * Called when a command is issued. Checks if it's the sender is a player and it's using the 
+	 * 'citiskins' sub-command. If there are no arguments, it sends the version. If there are arguments, 
+	 * it sends to the parser method.
+	 * 
+	 * @param sender of the command.
+	 * @param command being sent.
+	 * @param name of the command.
+	 * @param arguments of the command.
+	 * @return whether or not to send usage of the command.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player && label.equalsIgnoreCase("citiskins")) {
@@ -55,6 +67,13 @@ public class Commands implements CommandExecutor {
 		return false;
 	}
 	
+	/**
+	 * Parses a command with arguments, sends help if there is one argument, 
+	 * skins or capes an entity if there are two arguments, and checks to see if the URL ends in '.png'.
+	 * 
+	 * @param sender of the command
+	 * @param arguments of the command
+	 */
 	public void parseCommand(Player sender, String[] args) {
 		if (args.length == 1) {
 			this.sendHelp(sender);
@@ -79,33 +98,61 @@ public class Commands implements CommandExecutor {
 		}
 	}
 	
+	/**
+	 * Changes the player's selected NPC's skin. A valid NPC must be a generic LivingEntity or HumanEntity. 
+	 * 
+	 * @param player to get selected NPC from
+	 * @param url to the skin to apply.
+	 */
 	public void changeNPCSkin(Player player, String url) {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
-		if (npc != null && npc.getBukkitEntity() instanceof LivingEntity) {
-			SpoutServer serv = (SpoutServer) plugin.getServer();
-			serv.setEntitySkin((LivingEntity) npc.getBukkitEntity(), url, EntitySkinType.DEFAULT);
+		Entity entity = npc.getBukkitEntity();
+		if (npc != null && entity instanceof LivingEntity) {
+			if (entity instanceof HumanEntity) {
+				HumanEntity human = (HumanEntity) entity;
+				SpoutManager.getAppearanceManager().setGlobalSkin(human, url);
+			} else {
+				SpoutManager.getAppearanceManager().setGlobalEntitySkin((LivingEntity) entity, url, EntitySkinType.DEFAULT);
+			}
 		} else {
 			player.sendMessage(ChatColor.RED 
 					+ "Error: Couldn't find a valid NPC to skin! Please select one and try again!");
 		}
 	}
 	
+	/**
+	 * Changes the player's selected NPC's cape. A valid NPC must be a generic HumanEntity only.
+	 * 
+	 * @param player
+	 * @param url 
+	 */
 	public void changeNPCCape(Player player, String url) {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
-		if (npc != null && npc.getBukkitEntity() instanceof Player) {
-			SpoutPlayer npcx = (SpoutPlayer) npc.getBukkitEntity();
-			npcx.setCape(url);
+		Entity entity = npc.getBukkitEntity();
+		if (npc != null && entity instanceof HumanEntity) {
+			HumanEntity human = (HumanEntity) entity;
+			SpoutManager.getAppearanceManager().setGlobalCloak(human, url);
 		} else {
 			player.sendMessage(ChatColor.RED 
 					+ "Error: Couldn't find a valid NPC to cape! Please select one and try again!");
 		}
 	}
 	
+	/**
+	 * Sends the 'CitiSkins' version to the sender.
+	 * 
+	 * @param sender of the command.
+	 */
 	public void sendVersion(Player sender) {
 		sender.sendMessage(ChatColor.GREEN + "CitiSkins v" + plugin.getDescription().getVersion() 
 				+ " by Windwaker enabled!");
 	}
 	
+	/**
+	 * Sends the 'CitiSkins' help menu.
+	 * 
+	 * @param sender of the command.
+	 */
 	public void sendHelp(Player sender) {
 		sender.sendMessage("-- CitiSkins Help --");
 		sender.sendMessage("-- /citiskins <skin|cape> <url> --");

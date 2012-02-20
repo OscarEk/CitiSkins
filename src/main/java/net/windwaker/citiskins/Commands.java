@@ -24,7 +24,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutServer;
+import org.getspout.spoutapi.player.EntitySkinType;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
  *
@@ -57,13 +61,13 @@ public class Commands implements CommandExecutor {
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("skin")) {
 				if (args[1].endsWith(".png")) {
-					this.changeNPCSkin(sender);
+					this.changeNPCSkin(sender, args[1]);
 				} else {
 					sender.sendMessage(ChatColor.RED + "Error: Invalid url! A skins URL must end with '.png'!");
 				}
 			} else if (args[0].equalsIgnoreCase("cape")) {
 				if (args[1].endsWith(".png")) {
-					this.changeNPCCape(sender);
+					this.changeNPCCape(sender, args[1]);
 				} else {
 					sender.sendMessage(ChatColor.RED + "Error: Invalid url! A skins URL must end with '.png'!");
 				}
@@ -75,20 +79,22 @@ public class Commands implements CommandExecutor {
 		}
 	}
 	
-	public void changeNPCSkin(Player player) {
+	public void changeNPCSkin(Player player, String url) {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
-		if (npc != null && npc.getBukkitEntity() instanceof Player) {
-			// TODO: Skin
+		if (npc != null && npc.getBukkitEntity() instanceof LivingEntity) {
+			SpoutServer serv = (SpoutServer) plugin.getServer();
+			serv.setEntitySkin((LivingEntity) npc.getBukkitEntity(), url, EntitySkinType.DEFAULT);
 		} else {
 			player.sendMessage(ChatColor.RED 
 					+ "Error: Couldn't find a valid NPC to skin! Please select one and try again!");
 		}
 	}
 	
-	public void changeNPCCape(Player player) {
+	public void changeNPCCape(Player player, String url) {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
 		if (npc != null && npc.getBukkitEntity() instanceof Player) {
-			// TODO: Cape
+			SpoutPlayer npcx = (SpoutPlayer) npc.getBukkitEntity();
+			npcx.setCape(url);
 		} else {
 			player.sendMessage(ChatColor.RED 
 					+ "Error: Couldn't find a valid NPC to cape! Please select one and try again!");

@@ -31,12 +31,11 @@
       <groupId>net.citizensnpcs</groupId>
       <artifactId>citizensapi</artifactId>
       <version>2.0</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-dbutils</artifactId>
-          <groupId>commons-dbutils</groupId>
-        </exclusion>
-      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.getspout</groupId>
+      <artifactId>spoutpluginapi</artifactId>
+      <version>dev-SNAPSHOT</version>
     </dependency>
   </dependencies>
   

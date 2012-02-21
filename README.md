@@ -14,6 +14,22 @@ Installation
 * Drag and drop CitiSkins into your plugin directory
 * Start the server
 
+Usage
+-----
+* Commands
+    - /citiskins | Shows version and author of plugin.
+    - /citikins skin apply <url> | Gives your selected NPC a skin from the URL.
+    - /citikins skin remove | Resets your selected NPCs skin.
+    - /citiskins cape apply <url> | Gives your selected NPC a cape from the URL.
+    - /citiskins cape remove | Give your selected NPC a cape from the URL.
+* Permissions
+    - <code>citiskins.*</code> | Gives complete access to CitiSkins commands.
+    - <code>citiskins.skin.apply</code> | Gives access to apply NPC skins.
+    - <code>citiskins.skin.remove</code> | Gives access to remove NPC skins.
+    - <code>citiskins.cape.apply</code> | Gives access to apply NPC capes.
+    - <code>citiskins.cape.remove</code> | Gives access to remove NPC capes.
+
+
 Credits
 -------
 [![Windwaker](http://www.gravatar.com/avatar/942913bba29c93344d8a2e4da56c6bf1.png)](http://forums.spout.org/members/windwaker.47/)

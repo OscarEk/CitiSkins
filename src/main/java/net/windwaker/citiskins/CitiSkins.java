@@ -18,8 +18,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package net.windwaker.citiskins;
 
+import net.citizensnpcs.api.npc.NPC;
+import net.minecraft.server.Entity;
+import net.minecraft.server.EntityPlayer;
 import net.windwaker.citiskins.logging.Logger;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spout.player.SpoutCraftPlayer;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
  *
@@ -38,5 +46,24 @@ public class CitiSkins extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		logger.disable("CitiSkins v" + this.getDescription().getVersion() + " by Windwaker disabled.");
+	}
+	
+	/**
+	 * Returns the NPC as a SpoutPlayer
+	 * 
+	 * @author Top_Cat
+	 * @param npc
+	 * @return SpoutPlayer
+	 */
+	public static SpoutPlayer getSpoutPlayer(NPC npc) {
+		try {
+			Class.forName("org.getspout.spout.Spout");
+			Entity entity = ((CraftHumanEntity) npc.getBukkitEntity()).getHandle();
+			SpoutCraftPlayer player = new SpoutCraftPlayer((CraftServer) Bukkit.getServer(), (EntityPlayer) entity);
+			return player;
+		} catch (ClassNotFoundException e) {
+			Bukkit.getServer().getLogger().warning("Cannot get spout player without spout installed");
+		}
+		return null;
 	}
 }

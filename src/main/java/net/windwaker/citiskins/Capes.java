@@ -24,7 +24,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
  *
@@ -41,8 +41,8 @@ public class Capes {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
 		Entity entity = npc.getBukkitEntity();
 		if (npc != null && entity instanceof HumanEntity) {
-			HumanEntity human = (HumanEntity) entity;
-			SpoutManager.getAppearanceManager().resetGlobalCloak(human);
+			SpoutPlayer human = CitiSkins.getSpoutPlayer(npc);
+			human.resetCape();
 		} else {
 			player.sendMessage(ChatColor.RED 
 					+ "Error: Couldn't find a valid NPC to cape! Please select one and try again!");
@@ -59,8 +59,8 @@ public class Capes {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
 		Entity entity = npc.getBukkitEntity();
 		if (npc != null && entity instanceof HumanEntity) {
-			HumanEntity human = (HumanEntity) entity;
-			SpoutManager.getAppearanceManager().setGlobalCloak(human, url);
+			SpoutPlayer human = CitiSkins.getSpoutPlayer(npc);
+			human.setCape(url);
 		} else {
 			player.sendMessage(ChatColor.RED 
 					+ "Error: Couldn't find a valid NPC to cape! Please select one and try again!");

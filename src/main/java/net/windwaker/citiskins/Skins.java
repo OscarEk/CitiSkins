@@ -23,10 +23,8 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.player.EntitySkinType;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
  *
@@ -42,18 +40,15 @@ public class Skins {
 	public static void remove(Player player) {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
 		Entity entity = npc.getBukkitEntity();
-		if (npc != null && entity instanceof LivingEntity) {
-			if (entity instanceof HumanEntity) {
-				HumanEntity human = (HumanEntity) entity;
-				SpoutManager.getAppearanceManager().resetGlobalSkin(human);
-			} else {
-				SpoutManager.getAppearanceManager().resetEntitySkin((LivingEntity) entity);
-			}
+		if (npc != null && entity instanceof HumanEntity) {
+			SpoutPlayer human = CitiSkins.getSpoutPlayer(npc);
+			human.resetSkin();
 		} else {
 			player.sendMessage(ChatColor.RED 
 					+ "Error: Couldn't find a valid NPC to unskin! Please select one and try again!");
 		}
 	}
+		
 	
 	/**
 	 * Changes the player's selected NPC's skin. A valid NPC must be a generic LivingEntity or HumanEntity. 
@@ -64,17 +59,11 @@ public class Skins {
 	public static void apply(Player player, String url) {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
 		Entity entity = npc.getBukkitEntity();
-		if (npc != null && entity instanceof LivingEntity) {
-			if (entity instanceof HumanEntity) {
-				HumanEntity human = (HumanEntity) entity;
-				SpoutManager.getAppearanceManager().setGlobalSkin(human, url);
-			} else {
-				SpoutManager.getAppearanceManager().setGlobalEntitySkin((LivingEntity) entity, url, EntitySkinType
-						.DEFAULT);
-			}
+		if (npc != null && entity instanceof HumanEntity) {
+			SpoutPlayer human = CitiSkins.getSpoutPlayer(npc);
+			human.setSkin(url);
 		} else {
-			player.sendMessage(ChatColor.RED 
-					+ "Error: Couldn't find a valid NPC to skin! Please select one and try again!");
+			player.sendMessage(ChatColor.RED + "Error: Couldn't find a valid NPC to skin! Please select one and try again!");
 		}
 	}
 }

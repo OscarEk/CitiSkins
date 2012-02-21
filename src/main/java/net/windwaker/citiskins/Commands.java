@@ -31,7 +31,6 @@ import org.bukkit.entity.Player;
 public class Commands implements CommandExecutor {
 	
 	private final CitiSkins plugin;
-	private final NpcManager npcs = CitiSkins.getNpcManager();
 	
 	/**
 	 * Constructs the 'CitiSkins' CommandExecutor.
@@ -61,6 +60,7 @@ public class Commands implements CommandExecutor {
 				return true;
 			} else {
 				this.sendVersion((Player) sender);
+				return true;
 			}
 		}
 		return false;
@@ -108,11 +108,11 @@ public class Commands implements CommandExecutor {
 	public void execute(Player player, String cmd, String action) {
 		if (action.equalsIgnoreCase("remove")) {
 			if (cmd.equalsIgnoreCase("skin")) {
-				npcs.removeNpcSkin(player);
+				Skins.remove(player);
 			}
 			
 			if (cmd.equalsIgnoreCase("cape")) {
-				npcs.removeNpcCape(player);
+				Capes.remove(player);
 			}
 		} else {
 			this.sendHelp(player);
@@ -129,12 +129,16 @@ public class Commands implements CommandExecutor {
 	 */
 	public void execute(Player player, String cmd, String action, String url) {
 		if (action.equalsIgnoreCase("apply")) {
-			if (cmd.equalsIgnoreCase("skin")) {
-				npcs.applyNpcSkin(player, url);
-			}
+			if (url.endsWith(".png")) {
+				if (cmd.equalsIgnoreCase("skin")) {
+					Skins.apply(player, url);
+				}
 			
-			if (cmd.equalsIgnoreCase("cape")) {
-				npcs.applyNpcCape(player, url);
+				if (cmd.equalsIgnoreCase("cape")) {
+					Capes.apply(player, url);
+				}
+			} else {
+				player.sendMessage(ChatColor.RED + "Error: A skin or cape URL must end with '.png'");
 			}
 		} else {
 			this.sendHelp(player);

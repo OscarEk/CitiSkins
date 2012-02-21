@@ -28,18 +28,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CitiSkins extends JavaPlugin {
 	
 	private final Logger logger = Logger.getInstance();
-	private final static NpcManager npcManager = new NpcManager();
 
+	@Override
 	public void onEnable() {
 		this.getCommand("citiskins").setExecutor(new Commands(this));
 		logger.enable("CitiSkins v" + this.getDescription().getVersion() + " by Windwaker enabled!");
 	}
 	
+	@Override
 	public void onDisable() {
 		logger.disable("CitiSkins v" + this.getDescription().getVersion() + " by Windwaker disabled.");
-	}
-	
-	public static NpcManager getNpcManager() {
-		return npcManager;
 	}
 }

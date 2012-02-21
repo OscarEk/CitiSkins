@@ -32,14 +32,14 @@ import org.getspout.spoutapi.player.EntitySkinType;
  *
  * @author Windwaker
  */
-public class NpcManager {
+public class Skins {
 	
 	/**
 	 * Resets the player's selected NPC's skin. A valid NPC must be a generic LivingEntity or HumanEntity.
 	 * 
 	 * @param player 
 	 */
-	public void removeNpcSkin(Player player) {
+	public static void remove(Player player) {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
 		Entity entity = npc.getBukkitEntity();
 		if (npc != null && entity instanceof LivingEntity) {
@@ -61,7 +61,7 @@ public class NpcManager {
 	 * @param player to get selected NPC from
 	 * @param url to the skin to apply.
 	 */
-	public void applyNpcSkin(Player player, String url) {
+	public static void apply(Player player, String url) {
 		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
 		Entity entity = npc.getBukkitEntity();
 		if (npc != null && entity instanceof LivingEntity) {
@@ -75,41 +75,6 @@ public class NpcManager {
 		} else {
 			player.sendMessage(ChatColor.RED 
 					+ "Error: Couldn't find a valid NPC to skin! Please select one and try again!");
-		}
-	}
-	
-	/**
-	 * Resets the player's selected NPC's cape. A valid NPC must be a generic HumanEntity only.
-	 * 
-	 * @param player 
-	 */
-	public void removeNpcCape(Player player) {
-		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
-		Entity entity = npc.getBukkitEntity();
-		if (npc != null && entity instanceof HumanEntity) {
-			HumanEntity human = (HumanEntity) entity;
-			SpoutManager.getAppearanceManager().resetGlobalCloak(human);
-		} else {
-			player.sendMessage(ChatColor.RED 
-					+ "Error: Couldn't find a valid NPC to cape! Please select one and try again!");
-		}
-	}
-	
-	/**
-	 * Changes the player's selected NPC's cape. A valid NPC must be a generic HumanEntity only.
-	 * 
-	 * @param player
-	 * @param url 
-	 */
-	public void applyNpcCape(Player player, String url) {
-		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
-		Entity entity = npc.getBukkitEntity();
-		if (npc != null && entity instanceof HumanEntity) {
-			HumanEntity human = (HumanEntity) entity;
-			SpoutManager.getAppearanceManager().setGlobalCloak(human, url);
-		} else {
-			player.sendMessage(ChatColor.RED 
-					+ "Error: Couldn't find a valid NPC to cape! Please select one and try again!");
 		}
 	}
 }

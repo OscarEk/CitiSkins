@@ -2,7 +2,7 @@ About
 -----
 CitiSkins is a module for the popular Citizens Bukkit plugin which adds NPC functionality to Minecraft Multiplayer. With the use of CitiSkins and the aid of [SpoutPlugin][Spout Link] you can add capes as well as skins to any NPCs while maintaining the NPC's name.
 
-TextureMe is [open-source][GitHub] | [Report an issue][Issues]
+CitiSkins is [open-source][GitHub] | [Report an issue][Issues]
 
 Installation
 ------------

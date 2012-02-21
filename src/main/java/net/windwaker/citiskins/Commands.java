@@ -105,11 +105,11 @@ public class Commands implements CommandExecutor {
 	 */
 	public void execute(Player player, String cmd, String action) {
 		if (action.equalsIgnoreCase("remove")) {
-			if (cmd.equalsIgnoreCase("skin")) {
+			if (cmd.equalsIgnoreCase("skin") || player.hasPermission("citiskins.skin.remove")) {
 				CitiSkins.getSkins().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
 			}
 			
-			if (cmd.equalsIgnoreCase("cape")) {
+			if (cmd.equalsIgnoreCase("cape") || player.hasPermission("citiskins.cape.remove")) {
 				CitiSkins.getCapes().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
 			}
 		} else {
@@ -128,11 +128,11 @@ public class Commands implements CommandExecutor {
 	public void execute(Player player, String cmd, String action, String url) {
 		if (action.equalsIgnoreCase("apply")) {
 			if (url.endsWith(".png")) {
-				if (cmd.equalsIgnoreCase("skin")) {
+				if (cmd.equalsIgnoreCase("skin") || player.hasPermission("citiskins.skin.apply")) {
 					CitiSkins.getSkins().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
 				}
 			
-				if (cmd.equalsIgnoreCase("cape")) {
+				if (cmd.equalsIgnoreCase("cape") || player.hasPermission("citiskins.cape.remove")) {
 					CitiSkins.getCapes().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
 				}
 			} else {

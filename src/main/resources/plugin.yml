@@ -21,9 +21,6 @@ permissions:
       citiskins.help: true
       citiskins.cape.apply: true
       citiskins.cape.remove: true
-  citiskins.help:
-    description: Gives acces to help command
-    default: true
   citiskins.skin.apply:
     description: Allows you to apply skins to NPCs
     default: false

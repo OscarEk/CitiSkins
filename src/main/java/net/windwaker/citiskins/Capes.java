@@ -18,12 +18,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package net.windwaker.citiskins;
 
-import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import org.bukkit.ChatColor;
+import net.windwaker.citiskins.configuration.Configuration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
@@ -32,20 +30,19 @@ import org.getspout.spoutapi.player.SpoutPlayer;
  */
 public class Capes {
 	
+	private final Configuration npcs = CitiSkins.getNPCS();	
 	/**
 	 * Resets the player's selected NPC's cape. A valid NPC must be a generic HumanEntity only.
 	 * 
 	 * @param player 
 	 */
-	public static void remove(Player player) {
-		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
+	public void remove(NPC npc) {
 		Entity entity = npc.getBukkitEntity();
 		if (npc != null && entity instanceof HumanEntity) {
-			SpoutPlayer human = CitiSkins.getSpoutPlayer(npc);
+			SpoutPlayer human = CitiSkins.toSpoutPlayer(npc);
 			human.resetCape();
-		} else {
-			player.sendMessage(ChatColor.RED 
-					+ "Error: Couldn't find a valid NPC to cape! Please select one and try again!");
+			npcs.set("npcs." + npc.getId() + ".cape", "default");
+			npcs.save();
 		}
 	}
 	
@@ -55,15 +52,13 @@ public class Capes {
 	 * @param player
 	 * @param url 
 	 */
-	public static void apply(Player player, String url) {
-		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
+	public void apply(NPC npc, String url) {
 		Entity entity = npc.getBukkitEntity();
 		if (npc != null && entity instanceof HumanEntity) {
-			SpoutPlayer human = CitiSkins.getSpoutPlayer(npc);
+			SpoutPlayer human = CitiSkins.toSpoutPlayer(npc);
 			human.setCape(url);
-		} else {
-			player.sendMessage(ChatColor.RED 
-					+ "Error: Couldn't find a valid NPC to cape! Please select one and try again!");
+			npcs.set("npcs." + npc.getId() + ".cape", url);
+			npcs.save();
 		}
 	}
 }

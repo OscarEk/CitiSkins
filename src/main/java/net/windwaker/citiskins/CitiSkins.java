@@ -18,9 +18,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package net.windwaker.citiskins;
 
+import java.io.File;
 import net.citizensnpcs.api.npc.NPC;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
+import net.windwaker.citiskins.configuration.Configuration;
 import net.windwaker.citiskins.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.CraftServer;
@@ -36,16 +38,33 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 public class CitiSkins extends JavaPlugin {
 	
 	private final Logger logger = Logger.getInstance();
+	private static final Configuration npcs = new Configuration(new File("plugins/CitiSkins/npcs.yml"));
+	private static final Capes capes = new Capes();
+	private static final Skins skins = new Skins();
 
 	@Override
 	public void onEnable() {
+		npcs.load();
 		this.getCommand("citiskins").setExecutor(new Commands(this));
+		Bukkit.getPluginManager().registerEvents(new NpcListener(), this);
 		logger.enable("CitiSkins v" + this.getDescription().getVersion() + " by Windwaker enabled!");
 	}
 	
 	@Override
 	public void onDisable() {
 		logger.disable("CitiSkins v" + this.getDescription().getVersion() + " by Windwaker disabled.");
+	}
+	
+	public static Configuration getNPCS() {
+		return npcs;
+	}
+	
+	public static Skins getSkins() {
+		return skins;
+	}
+	
+	public static Capes getCapes() {
+		return capes;
 	}
 	
 	/**
@@ -55,7 +74,7 @@ public class CitiSkins extends JavaPlugin {
 	 * @param npc
 	 * @return SpoutPlayer
 	 */
-	public static SpoutPlayer getSpoutPlayer(NPC npc) {
+	public static SpoutPlayer toSpoutPlayer(NPC npc) {
 		try {
 			Class.forName("org.getspout.spout.Spout");
 			Entity entity = ((CraftHumanEntity) npc.getBukkitEntity()).getHandle();

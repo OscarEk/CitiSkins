@@ -18,6 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package net.windwaker.citiskins;
 
+import net.citizensnpcs.api.CitizensAPI;
+import net.windwaker.citiskins.configuration.Configuration;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,12 +33,8 @@ import org.bukkit.entity.Player;
 public class Commands implements CommandExecutor {
 	
 	private final CitiSkins plugin;
+	private final Configuration npcs = CitiSkins.getNPCS();
 	
-	/**
-	 * Constructs the 'CitiSkins' CommandExecutor.
-	 * 
-	 * @param CitiSkins plugin 
-	 */
 	public Commands(CitiSkins plugin) {
 		this.plugin = plugin;
 	}
@@ -108,11 +106,11 @@ public class Commands implements CommandExecutor {
 	public void execute(Player player, String cmd, String action) {
 		if (action.equalsIgnoreCase("remove")) {
 			if (cmd.equalsIgnoreCase("skin")) {
-				Skins.remove(player);
+				CitiSkins.getSkins().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
 			}
 			
 			if (cmd.equalsIgnoreCase("cape")) {
-				Capes.remove(player);
+				CitiSkins.getCapes().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
 			}
 		} else {
 			this.sendHelp(player);
@@ -131,11 +129,11 @@ public class Commands implements CommandExecutor {
 		if (action.equalsIgnoreCase("apply")) {
 			if (url.endsWith(".png")) {
 				if (cmd.equalsIgnoreCase("skin")) {
-					Skins.apply(player, url);
+					CitiSkins.getSkins().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
 				}
 			
 				if (cmd.equalsIgnoreCase("cape")) {
-					Capes.apply(player, url);
+					CitiSkins.getCapes().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
 				}
 			} else {
 				player.sendMessage(ChatColor.RED + "Error: A skin or cape URL must end with '.png'");
@@ -161,8 +159,9 @@ public class Commands implements CommandExecutor {
 	 * @param sender of the command.
 	 */
 	public void sendHelp(Player sender) {
-		sender.sendMessage("-- CitiSkins Help --");
-		sender.sendMessage("-- /citiskins <skin|cape> <url> --");
-		sender.sendMessage("-- You must have an NPC selected in Citizens. --");
+		sender.sendMessage(ChatColor.GRAY + "----------------" + ChatColor.GREEN + " CitiSkins Help" + ChatColor.GREEN + " -----------------");
+		sender.sendMessage(ChatColor.GRAY + "--" + ChatColor.GREEN + " /citiskins <skin|cape> <apply|remove> <url>" + ChatColor.GREEN + " --");
+		sender.sendMessage(ChatColor.GRAY + "--" + ChatColor.GREEN + " You must have an NPC selected in Citizens." + ChatColor.GREEN + " ---");
+		sender.sendMessage(ChatColor.GRAY + "-------------------------------------------------");
 	}
 }

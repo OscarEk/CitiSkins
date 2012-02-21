@@ -18,12 +18,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package net.windwaker.citiskins;
 
-import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import org.bukkit.ChatColor;
+import net.windwaker.citiskins.configuration.Configuration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
@@ -32,20 +30,20 @@ import org.getspout.spoutapi.player.SpoutPlayer;
  */
 public class Skins {
 	
+	private final Configuration npcs = CitiSkins.getNPCS();
+	
 	/**
 	 * Resets the player's selected NPC's skin. A valid NPC must be a generic LivingEntity or HumanEntity.
 	 * 
 	 * @param player 
 	 */
-	public static void remove(Player player) {
-		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
+	public void remove(NPC npc) {
 		Entity entity = npc.getBukkitEntity();
 		if (npc != null && entity instanceof HumanEntity) {
-			SpoutPlayer human = CitiSkins.getSpoutPlayer(npc);
+			SpoutPlayer human = CitiSkins.toSpoutPlayer(npc);
 			human.resetSkin();
-		} else {
-			player.sendMessage(ChatColor.RED 
-					+ "Error: Couldn't find a valid NPC to unskin! Please select one and try again!");
+			npcs.set("npcs." + npc.getId() + ".skin", "default");
+			npcs.save();
 		}
 	}
 		
@@ -56,14 +54,13 @@ public class Skins {
 	 * @param player to get selected NPC from
 	 * @param url to the skin to apply.
 	 */
-	public static void apply(Player player, String url) {
-		NPC npc = CitizensAPI.getNPCManager().getSelectedNPC(player);
+	public void apply(NPC npc, String url) {
 		Entity entity = npc.getBukkitEntity();
 		if (npc != null && entity instanceof HumanEntity) {
-			SpoutPlayer human = CitiSkins.getSpoutPlayer(npc);
+			SpoutPlayer human = CitiSkins.toSpoutPlayer(npc);
 			human.setSkin(url);
-		} else {
-			player.sendMessage(ChatColor.RED + "Error: Couldn't find a valid NPC to skin! Please select one and try again!");
+			npcs.set("npcs." + npc.getId() + ".skin", url);
+			npcs.save();
 		}
 	}
 }

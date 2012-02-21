@@ -29,6 +29,7 @@ public class PluginLevel extends Level {
 	public static final PluginLevel DEBUG = new PluginLevel("DEBUG", SEVERE.intValue()+1);
 	public static final PluginLevel ENABLE = new PluginLevel("ENABLE", DEBUG.intValue()+1);
 	public static final PluginLevel DISABLE = new PluginLevel("DISABLE", ENABLE.intValue()+1);
+	public static final PluginLevel CONFIG = new PluginLevel("CONFIG", DISABLE.intValue()+1);
 	
 	public PluginLevel(String name, int value) {
 		super(name, value);

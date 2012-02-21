@@ -64,4 +64,8 @@ public class Logger {
 	public void disable(Object obj) {
 		log(PluginLevel.DISABLE, obj);
 	}
+	
+	public void config(Object obj) {
+		log(PluginLevel.CONFIG, obj);
+	}
 }

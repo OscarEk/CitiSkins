@@ -1,4 +1,4 @@
-package net.windwaker.citiskins; /**
+/**
  * The CitiSkins project.
  * Copyright (C) 2012 Walker Crouse
  *
@@ -16,6 +16,7 @@ package net.windwaker.citiskins; /**
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+package net.windwaker.citiskins;
 
 import net.citizensnpcs.api.npc.NPC;
 import net.minecraft.server.Entity;
@@ -25,6 +26,8 @@ import net.windwaker.citiskins.configuration.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.LivingEntity;
 import org.getspout.spout.player.SpoutCraftPlayer;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
@@ -35,8 +38,8 @@ import java.util.Set;
  * @author Windwaker
  */
 public class NpcManager extends Configuration {
-	
-	public NpcManager() {
+
+	protected NpcManager() {
 		super(new File("plugins/CitiSkins/config.yml"));
 	}
 
@@ -46,8 +49,19 @@ public class NpcManager extends Configuration {
 	 * @param npc
 	 * @param state
 	 */
-	public void saveCape(NPC npc, String state) {
+	private void saveCape(NPC npc, String state) {
 		this.set("npcs." + npc.getId() + ".cape", state);
+		this.save();
+	}
+
+	/**
+	 * Saves a skin url to memory and disk.
+	 *
+	 * @param npc
+	 * @param state
+	 */
+	private void saveSkin(NPC npc, String state) {
+		this.set("npcs." + npc.getId() + ".skin", state);
 		this.save();
 	}
 
@@ -111,6 +125,65 @@ public class NpcManager extends Configuration {
 	}
 
 	/**
+	 * Resets the player's selected NPC's skin. A valid NPC must be a generic LivingEntity or HumanEntity.
+	 *
+	 * @param player
+	 */
+	public void removeSkin(NPC npc) {
+		LivingEntity entity = npc.getBukkitEntity();
+		if (entity instanceof HumanEntity) {
+			SpoutPlayer human = NpcManager.toSpoutPlayer(npc);
+			human.resetSkin();
+			saveSkin(npc, "default");
+		}
+	}
+
+
+	/**
+	 * Changes the player's selected NPC's skin. A valid NPC must be a generic LivingEntity or HumanEntity.
+	 *
+	 * @param player to get selected NPC from
+	 * @param url to the skin to apply.
+	 */
+	public void applySkin(NPC npc, String url) {
+		LivingEntity entity = npc.getBukkitEntity();
+		if (entity instanceof HumanEntity) {
+			SpoutPlayer human = NpcManager.toSpoutPlayer(npc);
+			human.setSkin(url);
+			saveSkin(npc, url);
+		}
+	}
+
+	/**
+	 * Resets the player's selected NPC's cape. A valid NPC must be a generic HumanEntity only.
+	 *
+	 * @param player
+	 */
+	public void removeCape(NPC npc) {
+		LivingEntity entity = npc.getBukkitEntity();
+		if (entity instanceof HumanEntity) {
+			SpoutPlayer human = NpcManager.toSpoutPlayer(npc);
+			human.resetCape();
+			saveCape(npc, "default");
+		}
+	}
+
+	/**
+	 * Changes the player's selected NPC's cape. A valid NPC must be a generic HumanEntity only.
+	 *
+	 * @param player
+	 * @param url
+	 */
+	public void applyCape(NPC npc, String url) {
+		LivingEntity entity = npc.getBukkitEntity();
+		if (entity instanceof HumanEntity) {
+			SpoutPlayer human = NpcManager.toSpoutPlayer(npc);
+			human.setCape(url);
+			saveCape(npc, url);
+		}
+	}
+
+	/**
 	 * Returns the NPC as a SpoutPlayer
 	 *
 	 * @author Top_Cat
@@ -121,8 +194,7 @@ public class NpcManager extends Configuration {
 		try {
 			Class.forName("org.getspout.spout.Spout");
 			Entity entity = ((CraftHumanEntity) npc.getBukkitEntity()).getHandle();
-			SpoutCraftPlayer player = new SpoutCraftPlayer((CraftServer) Bukkit.getServer(), (EntityPlayer) entity);
-			return player;
+			return new SpoutCraftPlayer((CraftServer) Bukkit.getServer(), (EntityPlayer) entity);
 		} catch (ClassNotFoundException e) {
 			Bukkit.getServer().getLogger().warning("Cannot get spout player without spout installed");
 		}
@@ -130,4 +202,3 @@ public class NpcManager extends Configuration {
 		return null;
 	}
 }
-

@@ -32,7 +32,7 @@ import org.bukkit.entity.Player;
  * @author Windwaker
  */
 public class Commands implements CommandExecutor {
-	
+
 	private final CitiSkins plugin;
 
 	public Commands(CitiSkins plugin) {
@@ -43,7 +43,7 @@ public class Commands implements CommandExecutor {
 	 * Called when a command is issued. Checks if it's the sender is a player and it's using the 
 	 * 'citiskins' sub-command. If there are no arguments, it sends the version. If there are arguments, 
 	 * it sends to the parser method.
-	 * 
+	 *
 	 * @param sender of the command.
 	 * @param command being sent.
 	 * @param name of the command.
@@ -63,10 +63,10 @@ public class Commands implements CommandExecutor {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Parses the arguments of the command. If there are insufficient arguments, help will be sent. 
-	 * 
+	 *
 	 * @param sender of the command
 	 * @param arguments of the command
 	 */
@@ -77,65 +77,65 @@ public class Commands implements CommandExecutor {
 		if (args.length < 3) {
 			this.sendHelp(sender);
 		}
-		
+
 		if (args.length == 2) {
 			cmd = args[0];
 			action = args[1];
 			this.execute(sender, cmd, action);
 		}
-		
+
 		if (args.length == 3) {
 			cmd = args[0];
 			action = args[1];
 			url = args[2];
 			this.execute(sender, cmd, action, url);
-		}		
-		
+		}
+
 		if (args.length > 3) {
 			this.sendHelp(sender);
 		}
 	}
-	
+
 	/**
 	 * Executes parsed command that does not have a URL given.
-	 * 
+	 *
 	 * @param player
 	 * @param cmd
-	 * @param action 
+	 * @param action
 	 */
-	public void execute(Player player, String cmd, String action) {
+	private void execute(Player player, String cmd, String action) {
 		if (action.equalsIgnoreCase("remove")) {
 			NPC npc = CitizensAPI.getNPCManager().getNPC(player.getMetadata("selected").get(0).asInt());
 			if (cmd.equalsIgnoreCase("skin") || player.hasPermission("citiskins.skin.remove")) {
-				plugin.getSkins().remove(npc);
+				plugin.getNpcManager().removeSkin(npc);
 			}
-			
+
 			if (cmd.equalsIgnoreCase("cape") || player.hasPermission("citiskins.cape.remove")) {
-				plugin.getCapes().remove(npc);
+				plugin.getNpcManager().removeCape(npc);
 			}
 		} else {
 			this.sendHelp(player);
 		}
 	}
-	
+
 	/**
 	 * Executes parsed command that does have a URL given.
-	 * 
+	 *
 	 * @param player
 	 * @param cmd
 	 * @param action
-	 * @param url 
+	 * @param url
 	 */
-	public void execute(Player player, String cmd, String action, String url) {
+	private void execute(Player player, String cmd, String action, String url) {
 		if (action.equalsIgnoreCase("apply")) {
 			if (url.endsWith(".png")) {
 				NPC npc = CitizensAPI.getNPCManager().getNPC(player.getMetadata("selected").get(0).asInt());
 				if (cmd.equalsIgnoreCase("skin") || player.hasPermission("citiskins.skin.apply")) {
-					plugin.getSkins().apply(npc, url);
+					plugin.getNpcManager().applySkin(npc, url);
 				}
-			
+
 				if (cmd.equalsIgnoreCase("cape") || player.hasPermission("citiskins.cape.remove")) {
-					plugin.getCapes().apply(npc, url);
+					plugin.getNpcManager().applyCape(npc, url);
 				}
 			} else {
 				player.sendMessage(ChatColor.RED + "Error: A skin or cape URL must end with '.png'");
@@ -144,20 +144,20 @@ public class Commands implements CommandExecutor {
 			this.sendHelp(player);
 		}
 	}
-	
+
 	/**
 	 * Sends the 'CitiSkins' version to the sender.
-	 * 
+	 *
 	 * @param sender of the command.
 	 */
 	public void sendVersion(Player sender) {
-		sender.sendMessage(ChatColor.GREEN + "CitiSkins v" + plugin.getDescription().getVersion() 
+		sender.sendMessage(ChatColor.GREEN + "CitiSkins v" + plugin.getDescription().getVersion()
 				+ " by Windwaker enabled!");
 	}
-	
+
 	/**
 	 * Sends the 'CitiSkins' help menu.
-	 * 
+	 *
 	 * @param sender of the command.
 	 */
 	public void sendHelp(Player sender) {

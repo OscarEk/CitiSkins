@@ -95,11 +95,11 @@ Second
 Add CitiSkins to your build path in your IDE and skin NPCs with
 
 ```java
-CitiSkins.getInstance().getSkins().apply(citizenNPC, "skinUrl");
-CitiSkins.getInstance().getSkins().remove(citizenNPC);
+CitiSkins.getInstance().getNpcManager().applySkin(citizenNPC, url);
+CitiSkins.getInstance().getNpcManager().removeSkin(citizenNPC);
 
 // or
 
-CitiSkins.getInstance().getCapes().apply(citizenNPC, "capeUrl");
-CitiSkins.getInstance().getCapes().remove(citizenNPC);
+CitiSkins.getInstance().getNpcManager().applyCape(citizenNPC, url);
+CitiSkins.getInstance().getNpcManager().removeCape(citizenNPC);
 ```

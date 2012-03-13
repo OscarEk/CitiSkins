@@ -32,8 +32,6 @@ public class CitiSkins extends JavaPlugin {
 	private final Logger logger = getLogger();
 	private static CitiSkins instance;
 	private final NpcManager npcs = new NpcManager();
-	private final Capes capes = new Capes();
-	private final Skins skins = new Skins();
 
 	/**
 	 * Constructs a new CitiSkins plugin
@@ -84,23 +82,5 @@ public class CitiSkins extends JavaPlugin {
 	 */
 	public NpcManager getNpcManager() {
 		return npcs;
-	}
-
-	/**
-	 * Gets the [@link Skins}
-	 * 
-	 * @return Skins object
-	 */
-	public Skins getSkins() {
-		return skins;
-	}
-
-	/**
-	 * Gets the {@link Capes}
-	 * 
-	 * @return Capes object
-	 */
-	public Capes getCapes() {
-		return capes;
 	}
 }

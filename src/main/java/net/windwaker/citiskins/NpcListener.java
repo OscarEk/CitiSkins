@@ -21,6 +21,7 @@ package net.windwaker.citiskins;
 import net.citizensnpcs.api.event.NPCSpawnEvent;
 import net.citizensnpcs.api.npc.NPC;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -42,12 +43,13 @@ public class NpcListener implements Listener {
 	public void onNpcSpawn(NPCSpawnEvent event) {
 		NPC npc = event.getNPC();
 		if (npcs.npcExists(npc)) {
+			NpcManager npcs = plugin.getNpcManager();
 			if (!npcs.hasDefaultSkin(npc)) {
-				plugin.getSkins().apply(npc, npcs.getSkin(npc));
+				npcs.applySkin(npc, npcs.getSkin(npc));
 			}
 			
 			if (!npcs.hasDefaultCape(npc)) {
-				plugin.getCapes().apply(npc, npcs.getCape(npc));
+				npcs.applyCape(npc, npcs.getCape(npc));
 			}
 		}
 	}

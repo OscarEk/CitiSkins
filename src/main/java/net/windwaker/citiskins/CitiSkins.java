@@ -47,7 +47,7 @@ public class CitiSkins extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
-
+		
 		// Load config
 		npcs.load();
 

@@ -56,3 +56,50 @@ TextureMe is licensed under [GNU Lesser General Public License v3][License]
 [Issues]: http://github.com/WalkerCrouse/TextureMe
 [Donate Icon]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif
 [Donate]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=637G838ZVVD9N
+
+For Developers - Hooking into CitiSkins
+---------------------------------------
+CitiSkins can alternatively be used as an easy way to skin your Citizens v2.x NPCs in your plugin, it only takes two easy steps to skin NPCs.
+
+First
+-----
+
+Add CitiSkins as a dependency to your plugin with:
+
+```
+depend: [CitiSkins]
+```
+
+In your plugin's plugin.yml file. Alternatively, you can also make it optional with something like
+
+```
+softdepend: [CitiSkins]
+```
+
+In your plugin.yml and then
+
+```java
+@Override
+public void onEnable() {
+  if (Bukkit.getPluginManager().getPlugin("CitiSkins") == null) {
+    // Log message or...
+    Bukkit.getPluginManager().disablePlugin(this);
+  }
+}
+```
+
+In your plugin's onEnable() method.
+
+Second
+------
+Add CitiSkins to your build path in your IDE and skin NPCs with
+
+```java
+CitiSkins.getInstance().getSkins().apply(citizenNPC, "skinUrl");
+CitiSkins.getInstance().getSkins().remove(citizenNPC);
+
+// or
+
+CitiSkins.getInstance().getCapes().apply(citizenNPC, "capeUrl");
+CitiSkins.getInstance().getCapes().remove(citizenNPC);
+```

@@ -1,25 +1,25 @@
-/*
-The CitiSkins project.
-Copyright (C) 2012 Walker Crouse
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+/**
+ * The CitiSkins project.
+ * Copyright (C) 2012 Walker Crouse
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package net.windwaker.citiskins;
 
 import net.citizensnpcs.api.CitizensAPI;
-import net.windwaker.citiskins.configuration.Configuration;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,8 +33,7 @@ import org.bukkit.entity.Player;
 public class Commands implements CommandExecutor {
 	
 	private final CitiSkins plugin;
-	private final Configuration npcs = CitiSkins.getNPCS();
-	
+
 	public Commands(CitiSkins plugin) {
 		this.plugin = plugin;
 	}
@@ -106,11 +105,11 @@ public class Commands implements CommandExecutor {
 	public void execute(Player player, String cmd, String action) {
 		if (action.equalsIgnoreCase("remove")) {
 			if (cmd.equalsIgnoreCase("skin") || player.hasPermission("citiskins.skin.remove")) {
-				CitiSkins.getSkins().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
+				plugin.getSkins().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
 			}
 			
 			if (cmd.equalsIgnoreCase("cape") || player.hasPermission("citiskins.cape.remove")) {
-				CitiSkins.getCapes().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
+				plugin.getCapes().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
 			}
 		} else {
 			this.sendHelp(player);
@@ -129,11 +128,11 @@ public class Commands implements CommandExecutor {
 		if (action.equalsIgnoreCase("apply")) {
 			if (url.endsWith(".png")) {
 				if (cmd.equalsIgnoreCase("skin") || player.hasPermission("citiskins.skin.apply")) {
-					CitiSkins.getSkins().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
+					plugin.getSkins().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
 				}
 			
 				if (cmd.equalsIgnoreCase("cape") || player.hasPermission("citiskins.cape.remove")) {
-					CitiSkins.getCapes().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
+					plugin.getCapes().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
 				}
 			} else {
 				player.sendMessage(ChatColor.RED + "Error: A skin or cape URL must end with '.png'");

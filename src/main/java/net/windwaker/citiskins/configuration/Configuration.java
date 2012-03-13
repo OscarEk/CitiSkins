@@ -20,10 +20,8 @@ package net.windwaker.citiskins.configuration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
 
-import net.windwaker.citiskins.CitiSkins;
-
+import net.windwaker.citiskins.logging.Logger;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -33,7 +31,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public abstract class Configuration extends YamlConfiguration {
 	
-	private final Logger logger = CitiSkins.getInstance().getLogger();
+	private final Logger logger = Logger.getInstance();
 	private File file;
 
 	/**
@@ -75,7 +73,7 @@ public abstract class Configuration extends YamlConfiguration {
 			} else {
 				this.load(file);
 			}
-			logger.config("Loaded configuration file at " + file.getAbsolutePath());
+			logger.info("Loaded configuration file at " + file.getAbsolutePath());
 		} catch (IOException e) {
 			logger.severe("Failed to create configuration file at " + file.getAbsolutePath() + ": " + e.getMessage());
 		} catch (InvalidConfigurationException ce) {

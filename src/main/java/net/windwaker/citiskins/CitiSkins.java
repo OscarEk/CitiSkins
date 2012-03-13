@@ -18,8 +18,7 @@
  */
 package net.windwaker.citiskins;
 
-import java.util.logging.Logger;
-
+import net.windwaker.citiskins.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,7 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class CitiSkins extends JavaPlugin {
 	
-	private final Logger logger = getLogger();
+	private final Logger logger = Logger.getInstance();
 	private static CitiSkins instance;
 	private final NpcManager npcs = new NpcManager();
 
@@ -53,6 +52,7 @@ public class CitiSkins extends JavaPlugin {
 			logger.severe("Download SpoutPlugin at: http://get.spout.org");
 			logger.severe("Download Citizens 2.x at: http://ci.citizensnpcs.net");
 			pluginManager.disablePlugin(this);
+			return;
 		}
 
 		// Load config

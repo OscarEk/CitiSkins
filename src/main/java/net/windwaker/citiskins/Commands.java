@@ -20,6 +20,7 @@ package net.windwaker.citiskins;
 
 import net.citizensnpcs.api.CitizensAPI;
 
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -104,12 +105,13 @@ public class Commands implements CommandExecutor {
 	 */
 	public void execute(Player player, String cmd, String action) {
 		if (action.equalsIgnoreCase("remove")) {
+			NPC npc = CitizensAPI.getNPCManager().getNPC(player.getMetadata("selected").get(0).asInt());
 			if (cmd.equalsIgnoreCase("skin") || player.hasPermission("citiskins.skin.remove")) {
-				plugin.getSkins().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
+				plugin.getSkins().remove(npc);
 			}
 			
 			if (cmd.equalsIgnoreCase("cape") || player.hasPermission("citiskins.cape.remove")) {
-				plugin.getCapes().remove(CitizensAPI.getNPCManager().getSelectedNPC(player));
+				plugin.getCapes().remove(npc);
 			}
 		} else {
 			this.sendHelp(player);
@@ -127,12 +129,13 @@ public class Commands implements CommandExecutor {
 	public void execute(Player player, String cmd, String action, String url) {
 		if (action.equalsIgnoreCase("apply")) {
 			if (url.endsWith(".png")) {
+				NPC npc = CitizensAPI.getNPCManager().getNPC(player.getMetadata("selected").get(0).asInt());
 				if (cmd.equalsIgnoreCase("skin") || player.hasPermission("citiskins.skin.apply")) {
-					plugin.getSkins().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
+					plugin.getSkins().apply(npc, url);
 				}
 			
 				if (cmd.equalsIgnoreCase("cape") || player.hasPermission("citiskins.cape.remove")) {
-					plugin.getCapes().apply(CitizensAPI.getNPCManager().getSelectedNPC(player), url);
+					plugin.getCapes().apply(npc, url);
 				}
 			} else {
 				player.sendMessage(ChatColor.RED + "Error: A skin or cape URL must end with '.png'");

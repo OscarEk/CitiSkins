@@ -21,6 +21,7 @@ package net.windwaker.citiskins;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -45,7 +46,15 @@ public class CitiSkins extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
-		
+
+		PluginManager pluginManager = Bukkit.getPluginManager();
+		if (pluginManager.getPlugin("Spout") == null || pluginManager.getPlugin("Citizens") == null) {
+			logger.severe("CitiSkins requires Spout and Citizens to run, disabling!");
+			logger.severe("Download SpoutPlugin at: http://get.spout.org");
+			logger.severe("Download Citizens 2.x at: http://ci.citizensnpcs.net");
+			pluginManager.disablePlugin(this);
+		}
+
 		// Load config
 		npcs.load();
 

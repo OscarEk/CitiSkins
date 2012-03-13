@@ -5,7 +5,7 @@ author: Windwaker
 website: http://github.com/WalkerCrouse/CitiSkins
 main: net.windwaker.citiskins.CitiSkins
 database: false
-depend: [Spout, Citizens]
+softdepend: [Spout, Citizens]
 
 commands:
   citiskins:
